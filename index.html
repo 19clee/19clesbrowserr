@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; URL=https://19clee.github.io/19clesbrowserr/">
     <title>19cles Browser</title>
     <style>
         body {
@@ -48,7 +47,7 @@
     </div>
     <script>
         document.getElementById('searchForm').onsubmit = function(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent default form submission
             const query = document.getElementById('searchBox').value;
             window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
         };
