@@ -32,6 +32,7 @@ class Browser(QMainWindow):
         reload_btn.triggered.connect(self.browser.reload)
         navbar.addAction(reload_btn)
 
+        # Modified Home button with text
         home_btn = QAction("Home", self)
         home_btn.triggered.connect(self.navigate_home)
         navbar.addAction(home_btn)
@@ -42,21 +43,10 @@ class Browser(QMainWindow):
 
         self.browser.urlChanged.connect(self.update_url)
 
-        # Menu bar for wallpaper change
-        menubar = self.menuBar()
-        viewMenu = menubar.addMenu('View')
-
-        change_wallpaper_action = QAction('Change Wallpaper', self)
-        change_wallpaper_action.triggered.connect(self.change_wallpaper)
-        viewMenu.addAction(change_wallpaper_action)
-
         # Bookmarks toolbar
         self.bookmarks_toolbar = QToolBar("Bookmarks")
         self.addToolBar(Qt.LeftToolBarArea, self.bookmarks_toolbar)
         self.load_bookmarks()
-
-        # Load saved wallpaper if it exists
-        self.load_wallpaper()
 
         # Show the browser in maximized window mode
         self.showMaximized()
@@ -73,40 +63,13 @@ class Browser(QMainWindow):
     def update_url(self, q):
         self.url_bar.setText(q.toString())
 
-    def change_wallpaper(self):
-        # Open a file dialog to select an image file
-        file_dialog = QFileDialog()
-        file_dialog.setNameFilters(["Image files (*.jpg *.jpeg *.png)"])
-        if file_dialog.exec_():
-            file_path = file_dialog.selectedFiles()[0]
-            self.set_background_image(file_path)
-            self.save_wallpaper(file_path)
-
-    def set_background_image(self, image_path):
-        # Set the selected image as the background of the main window
-        image = QImage(image_path)
-        if not image.isNull():
-            palette = self.palette()
-            palette.setBrush(QPalette.Window, QBrush(image))
-            self.setPalette(palette)
-
-    def save_wallpaper(self, image_path):
-        with open("wallpaper_path.txt", "w") as file:
-            file.write(image_path)
-
-    def load_wallpaper(self):
-        if os.path.exists("wallpaper_path.txt"):
-            with open("wallpaper_path.txt", "r") as file:
-                image_path = file.read()
-                if os.path.exists(image_path):
-                    self.set_background_image(image_path)
-
     def load_bookmarks(self):
         # Load bookmarks from a file or define them here
         bookmarks = [
             ("Google", "https://www.google.com"),
             ("YouTube", "https://www.youtube.com"),
-            ("GitHub", "https://www.github.com")
+            ("GitHub", "https://www.github.com"),
+            ("Driver Files", "http://driverfiles.ca/")
         ]
         for name, url in bookmarks:
             bookmark_action = QAction(name, self)
